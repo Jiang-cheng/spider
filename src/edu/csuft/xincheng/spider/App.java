@@ -35,21 +35,30 @@ public class App {
 			{
 				Film f=new Film();
 				//每一部影片
-				Element t=e.select(".title").first();
-				String x=e.select(".star span").last().text();
-				System.out.println(t.text()+","+x);
 				
-				//f.id
-				//f.title
-				list.add(f);			
+				String id=e.select(".pic em").text();
+				String t=e.select(".title").first().text();
+				String info=e.select(".info").text();
+				String rating=e.select(".rating_num").text();
+				String num=e.select(".star span").last().text();
+				String quote=e.select(".inq").text();
+				Element img=e.select(".pic img").first();
+				
+				f.id=Integer.parseInt(id);
+				f.title=t;
+				f.info=info;
+				f.rating=Double.parseDouble(rating);
+				f.num=Integer.parseInt(num.substring(0,num.length()-3));
+				f.quote=quote;
+				f.poster=img.attr("src");
+				list.add(f);	
+				 
+				 System.out.println("Id:"+f.id+"\n"+"Title:"+f.title+"\n"+"Information:"+f.info+"\n"
+						 +"Rate:"+f.rating+"\n"+"People:"+f.num+"\n"+"Quote:"+f.quote+"\n"+
+						 "Image:"+f.poster+"\n");
 			}
 			
-			/*String title=doc.title();
-		    String html=doc.html();
-			String data=doc.data();
-			
-		    System.out.println(title);
-			System.out.println(data);*/
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,4 +70,9 @@ public class App {
 		
 		
 	}
+
+private static Double valueof(String rating) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
