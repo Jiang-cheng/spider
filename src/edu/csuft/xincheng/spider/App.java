@@ -36,29 +36,18 @@ public class App {
 				Film f=new Film();
 				//每一部影片
 				
-				String id=e.select(".pic em").text();
-				String t=e.select(".title").first().text();
-				String info=e.select(".info").text();
-				String rating=e.select(".rating_num").text();
-				String num=e.select(".star span").last().text();
-				String quote=e.select(".inq").text();
-				Element img=e.select(".pic img").first();
-				
-				f.id=Integer.parseInt(id);
-				f.title=t;
-				f.info=info;
-				f.rating=Double.parseDouble(rating);
-				f.num=Integer.parseInt(num.substring(0,num.length()-3));
-				f.quote=quote;
-				f.poster=img.attr("src");
+				f.id=Integer.parseInt(e.select(".pic em").text());
+				f.title=e.select(".title").first().text();
+				f.info=e.select(".info").text();
+				f.rating=Double.parseDouble(e.select(".rating_num").text());
+				f.num=Integer.parseInt(e.select(".star span").last().text().substring(0,e.select(".star span").last().text().length()-3));
+				f.quote=e.select(".inq").text();
+				f.poster=e.select(".pic img").first().attr("src");
 				list.add(f);	
-				 
-				 System.out.println("Id:"+f.id+"\n"+"Title:"+f.title+"\n"+"Information:"+f.info+"\n"
-						 +"Rate:"+f.rating+"\n"+"People:"+f.num+"\n"+"Quote:"+f.quote+"\n"+
-						 "Image:"+f.poster+"\n");
+				System.out.println(f);
 			}
 			
-
+        
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
