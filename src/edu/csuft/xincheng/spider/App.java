@@ -1,12 +1,10 @@
 package edu.csuft.xincheng.spider;
 
-import java.io.IOException;
+import java.io.FileWriter;
 import java.util.ArrayList;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import java.util.Collections;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -14,54 +12,66 @@ import org.jsoup.select.Elements;
  * @author xincheng
  * @author other
  */
-public class App {
+public class App 
+{
 
-//alt+/
-	public static void main(String[] args)  {
-	
+    //alt+/
+	public static void main(String[] args) 
+	{
 		
-		//目标 URL
-		String url="https://movie.douban.com/top250";
-		//使用JSOUP抓取文档
-		try {
-			Document doc=Jsoup.connect(url).get();
-			
-			Elements es=doc.select(".grid_view .item");
-			System.out.println(es.size());
-			
-			//创建一个影片的列表
-			ArrayList<Film> list=new ArrayList<>();
-			for(Element e:es)
-			{
-				Film f=new Film();
-				//每一部影片
-				
-				f.id=Integer.parseInt(e.select(".pic em").text());
-				f.title=e.select(".title").first().text();
-				f.info=e.select(".info").text();
-				f.rating=Double.parseDouble(e.select(".rating_num").text());
-				f.num=Integer.parseInt(e.select(".star span").last().text().substring(0,e.select(".star span").last().text().length()-3));
-				f.quote=e.select(".inq").text();
-				f.poster=e.select(".pic img").first().attr("src");
-				list.add(f);	
-				System.out.println(f);
+		//线程池
+		//无限缓存
+		ExecutorService pool=Executors.newCachedThreadPool();
+
+		ArrayList<Film> list=new ArrayList<>();
+		
+		String url="https://movie.douban.com/top250?start=";
+		
+ 		for(int i=0;i<10;i++)
+ 		{
+ 			String path=String.format("%s%d",url, i*25);
+ 			pool.submit(new Spider(path,list));
+ 		}
+ 		
+ 		pool.shutdown();
+ 		System.out.println(pool.isTerminated());
+ 		
+ 		while(!pool.isTerminated())
+ 		{
+ 			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-        
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+ 		}
+ 		
+ 	
+		System.out.println(list.size());
+		
+ 		
+ 		Collections.sort(list);
+ 		for (Film film:list)
+ 		{
+ 			System.out.println(film.toCSV());
+ 			
+ 		}
+ 		
+ 		
+ 		//写入文件
+ 		String file="d:/film.csv"; //绝对路径
+ 		file ="film.csv";       //相对路径
+ 		Collections.sort(list);
+ 		
+ 		//io
+ 		try(FileWriter out=new FileWriter(file)) {
+ 			//写数据
+ 			for (Film film : list) {
+ 				out.write(film.toCSV());
+			}
+ 			System.out.println("ok");
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		
-		
-		
-		
-		
-		
 	}
-
-private static Double valueof(String rating) {
-	// TODO Auto-generated method stub
-	return null;
-}
 }
