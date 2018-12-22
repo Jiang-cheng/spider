@@ -1,6 +1,7 @@
 package edu.csuft.xincheng.spider;
 
 import java.io.FileWriter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
@@ -34,7 +35,7 @@ public class App
  		}
  		
  		pool.shutdown();
- 		System.out.println(pool.isTerminated());
+// 		System.out.println(pool.isTerminated());
  		
  		while(!pool.isTerminated())
  		{

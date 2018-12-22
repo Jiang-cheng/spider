@@ -62,6 +62,7 @@ public class Spider implements Runnable {
 			f.num=Integer.parseInt(e.select(".star span").last().text().substring(0,e.select(".star span").last().text().length()-3));
 			f.quote=e.select(".inq").text();
 			f.poster=e.select(".pic img").first().attr("src");
+			
 			list.add(f);	
 //			System.out.println(name+":"+f);
 		}

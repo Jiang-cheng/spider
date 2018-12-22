@@ -7,5 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="F:/课程设计/jsoup-1.11.3.jar"/>
+	<classpathentry kind="lib" path="F:/课程设计/mybatis-3.4.6.jar"/>
+	<classpathentry kind="lib" path="F:/课程设计/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
